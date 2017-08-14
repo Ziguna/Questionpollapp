@@ -1,0 +1,19 @@
+<a href = "{%url "main_page" %}">Home</a> <br><br>
+<center>
+<a href = "{%url "QuestionCreate" object.id%}"><button type="button">Add New Questions in this category</button></a>
+
+
+<p>List of the Questions</p>
+{% for k in a %}
+    {% if k.question_category == object %}
+    <br>
+
+            <li><a href ="{% url 'ChoiceList' k.id%}">{{k.question_text}}</li>
+
+    {% endif %}
+
+{% endfor %}
+
+</center>
+
+

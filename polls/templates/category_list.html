@@ -1,0 +1,14 @@
+<a href = "{%url "CreateCategory" %}"><button type="button">Add New Category</button></a>
+
+
+<center>
+<h2>QUESTION CATEGORIES</h2>
+
+{% for i in object_list%}
+<li>
+<a href = '{% url "CategoryDetails" i.id %}'>{{i.name}}</a><br><br>
+
+</li>
+{% endfor%}
+
+</center>
