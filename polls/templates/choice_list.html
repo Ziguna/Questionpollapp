@@ -2,8 +2,14 @@
 <center>
 <a href = "{%url "ChoiceCreate" %}"><button type="button">Add New Choices in this question</button></a>
 
-<center>
-    
-<h2>Choices for this questions:</h2>
+<h1>{{ p.question_text }}</h1>
 
-</center>
+
+<form action="" method="post">
+{% csrf_token %}
+{% for choice in p.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+{% endfor %}
+<input type="submit" value="Vote" />
+</form>
