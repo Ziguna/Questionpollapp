@@ -8,7 +8,7 @@
     {% if k.question_category == object %}
     <br>
 
-            <li><a href ="{% url 'ChoiceList' k.id%}">{{k.question_text}}</li>
+            <li><a href ="{% url 'ChoiceList' k.id %}">{{k.question_text}}</li>
 
     {% endif %}
 
@@ -16,6 +16,7 @@
 <br><br>
 <a href="{% url "CategoryDelete" object.id %}"><button type="button">DELETE CATEGORY</button></a><br>
 </center>
+
 
 
 

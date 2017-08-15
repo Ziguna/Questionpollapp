@@ -3,6 +3,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from polls.models import Category, Question, Choice
 from django.core.urlresolvers import reverse_lazy
 from polls.forms import CategoryCreateForm, QuestionCreateForm, ChoiceCreateForm
+from django.shortcuts import get_object_or_404
 
 
 class CategoryListView(ListView):
@@ -50,11 +51,12 @@ class QuestionListView(DetailView):
 
     model = Question
     template_name = "choice_list.html"
+    form_class = QuestionCreateForm
 
     def get_context_data(self, **kwargs):
         context = super(QuestionListView, self).get_context_data(**kwargs)
         k = self.kwargs["pk"]
-        context["p"] = Question.objects.get(id=k)
+        #context["p"] = Question.objects.get(id=k)
 
         return context
 
@@ -115,8 +117,24 @@ class DisplayVoteResult(DetailView):
     template_name = "display_result.html"
 
     def get_context_data(self, **kwargs):
+
         context = super(DisplayVoteResult, self).get_context_data(**kwargs)
-        
+        m = self.kwargs["pk"]
+        question = get_object_or_404(Question, id=m)
+             
+        try:
+            selected_choice = question.choice_set.get(id=self.request.GET['choice'])
+            context["n"] = Question.objects.get(id=m)
+            selected_choice.votes += 1
+            selected_choice.save()
 
+            return context
 
+        except Exception:
 
+            context['n'] = Question.objects.get(id=m)
+            context['Message'] = "No choices are selected !!!"
+ 
+            return context
+
+  
