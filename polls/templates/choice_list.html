@@ -1,6 +1,7 @@
 <a href = "{%url "main_page" %}">Home</a> <br><br>
 <center>
-<a href = "{%url "ChoiceCreate" %}"><button type="button">Add New Choices in this question</button></a>
+<a href = "{%url "ChoiceCreate" %}"><button type="button">Add New Choices in this question</button></a><br>
+
 
 <h1>{{ p.question_text }}</h1>
 
@@ -9,7 +10,16 @@
 {% csrf_token %}
 {% for choice in p.choice_set.all %}
     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br /><br>
+    
+
 {% endfor %}
-<input type="submit" value="Vote" />
+<input type="submit" value="Vote" /><br><br>
 </form>
+
+
+
+<a href="{% url "QuestionUpdate" p.id %}"><button type="button">UPDATE QUESTION</button></a><br><br>
+<a href="{% url "QuestionDelete" p.id %}"><button type="button">DELETE QUESTION</button></a><br>
+
+

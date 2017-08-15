@@ -3,7 +3,7 @@
 <a href = "{%url "QuestionCreate" object.id%}"><button type="button">Add New Questions in this category</button></a>
 
 
-<p>List of the Questions</p>
+<h3><p>List of the Questions in this catergory</p></h3>
 {% for k in a %}
     {% if k.question_category == object %}
     <br>
@@ -13,7 +13,10 @@
     {% endif %}
 
 {% endfor %}
-
+<br><br>
+<a href="{% url "CategoryDelete" object.id %}"><button type="button">DELETE CATEGORY</button></a><br>
 </center>
+
+
 
 

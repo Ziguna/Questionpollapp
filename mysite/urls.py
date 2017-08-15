@@ -25,8 +25,13 @@ urlpatterns = [
     url(r'^CreateCategory/$', v.CategoryCreateView.as_view(), name="CreateCategory"),
     url(r'^CategoryDetails/(?P<pk>\d+)/$', v.CategoryDetailView.as_view(), name="CategoryDetails"),
     url(r'^QuestionCreate/(?P<pk>\d+)/$', v.QuestionCreateView.as_view(), name="QuestionCreate"),
-    url(r'^ChoiceList/(?P<pk>\d+)/$', v.ChoiceListView.as_view(), name="ChoiceList"),
-    url(r'^ChoiceCreate/$', v.ChoiceCreateView.as_view(), name="ChoiceCreate")
+    url(r'^ChoiceList/(?P<pk>\d+)/$', v.QuestionListView.as_view(), name="ChoiceList"),
+    url(r'^ChoiceCreate/$', v.ChoiceCreateView.as_view(), name="ChoiceCreate"),
+    url(r'^QuestionUpdate/(?P<pk>\d+)/$', v.QuestionUpdateView.as_view(), name="QuestionUpdate"),
+    url(r'^QuestionDelete/(?P<pk>\d+)/$', v.QuestionDeleteView.as_view(), name="QuestionDelete"),
+    url(r'^CategoryDelete/(?P<pk>\d+)/$', v.CategoryDeleteView.as_view(), name="CategoryDelete"),
+    url(r'^VoteResult/(?P<pk>\d+)/$', v.DisplayVoteResult.as_view(), name="VoteResult")
+
 
 
 

@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from polls.models import Category, Question, Choice
 from django.core.urlresolvers import reverse_lazy
 from polls.forms import CategoryCreateForm, QuestionCreateForm, ChoiceCreateForm
@@ -34,13 +34,28 @@ class CategoryDetailView(DetailView):
         return context
 
 
-class QuestionListView(ListView):
+class CategoryDeleteView(DeleteView):
+
+    '''
+    Used to delete the movie and return it to the main page.
+    '''
+    model = Category
+    template_name = "delete_category.html"
+    field = [
+    ]
+    success_url = reverse_lazy('main_page')
+
+
+class QuestionListView(DetailView):
 
     model = Question
-    template_name = "question_list.html"
+    template_name = "choice_list.html"
 
     def get_context_data(self, **kwargs):
         context = super(QuestionListView, self).get_context_data(**kwargs)
+        k = self.kwargs["pk"]
+        context["p"] = Question.objects.get(id=k)
+
         return context
 
 
@@ -52,6 +67,29 @@ class QuestionCreateView(CreateView):
     success_url = reverse_lazy('main_page')
 
 
+class QuestionUpdateView(UpdateView):
+    '''
+    Used to update the name, description, relesed date of the particular movie in this section
+    '''
+    model = Question
+    template_name = "question_create.html"
+    form_class = QuestionCreateForm
+
+    success_url = reverse_lazy('main_page')
+
+
+class QuestionDeleteView(DeleteView):
+
+    '''
+    Used to delete the movie and return it to the main page.
+    '''
+    model = Question
+    template_name = "delete_question.html"
+    field = [
+    ]
+    success_url = reverse_lazy('main_page')
+
+
 class ChoiceListView(ListView):
 
     model = Choice
@@ -59,6 +97,7 @@ class ChoiceListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ChoiceListView, self).get_context_data(**kwargs)
+        context['c'] = Choice.objects.all()
         return context
 
 
@@ -68,5 +107,16 @@ class ChoiceCreateView(CreateView):
     form_class = ChoiceCreateForm
 
     success_url = reverse_lazy('main_page')
+
+
+class DisplayVoteResult(DetailView):
+
+    model = Choice
+    template_name = "display_result.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(DisplayVoteResult, self).get_context_data(**kwargs)
+        
+
 
 

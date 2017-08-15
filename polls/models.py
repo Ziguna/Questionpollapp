@@ -18,7 +18,7 @@ class Question(models.Model):
     question_category = models.ForeignKey(Category, blank=True)
 
     def __str__(self):
-        return self.question_text + str(self.pub_date) + str(self.question_category)
+        return self.question_text
 
 
 class Choice(models.Model):
@@ -28,7 +28,7 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.question + self.choice_text + self.votes
+        return self.choice_text
 
 
 
