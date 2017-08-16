@@ -3,7 +3,7 @@
 <a href = "{%url "ChoiceCreate" object.id%}"><button type="button">Add New Choices in this question</button></a><br>
 
 
-<h3>{{object}}</h3>
+<h3>{{object}}</h3><h4>Total Options:</h4>{{object.choice_set.all|length}}
 
 <form action="{% url "VoteResult" object.id%}" method="GET">
 {% csrf_token %}
@@ -20,4 +20,6 @@
 
 <a href="{% url "QuestionUpdate" object.id %}"><button type="button">UPDATE QUESTION</button></a><br><br>
 <a href="{% url "QuestionDelete" object.id %}"><button type="button">DELETE QUESTION</button></a><br>
+
+
 

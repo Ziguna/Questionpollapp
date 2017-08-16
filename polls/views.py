@@ -34,12 +34,11 @@ class CategoryDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(CategoryDetailView, self).get_context_data(**kwargs)
         context['a'] = Question.objects.all()
-
+        context['total_question'] = Question.objects.filter(question_category__name=self.object.name).count()
         return context
 
 
 class CategoryDeleteView(DeleteView):
-
     '''
     Used to delete the movie and return it to the main page.
     '''
