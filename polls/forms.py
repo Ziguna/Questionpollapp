@@ -18,5 +18,4 @@ class ChoiceCreateForm(forms.ModelForm):
     class Meta:
         model = Choice
         fields = ('question', 'choice_text', 'votes')
-# Create your views here.
 

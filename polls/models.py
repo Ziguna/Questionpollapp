@@ -1,6 +1,6 @@
 import datetime
 from django.db import models
-from django.utils import timezone
+from datetime import datetime
 
 
 class Category(models.Model):
@@ -14,7 +14,7 @@ class Category(models.Model):
 class Question(models.Model):
 
     question_text = models.CharField(max_length=100)
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField(default=datetime.now)
     question_category = models.ForeignKey(Category, blank=True)
 
     def __str__(self):

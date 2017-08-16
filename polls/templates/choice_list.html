@@ -1,11 +1,11 @@
 <a href = "{%url "main_page" %}">Home</a> <br><br>
 <center>
-<a href = "{%url "ChoiceCreate" %}"><button type="button">Add New Choices in this question</button></a><br>
+<a href = "{%url "ChoiceCreate" object.id%}"><button type="button">Add New Choices in this question</button></a><br>
 
 
 <h3>{{object}}</h3>
 
-<form action="{% url "VoteResult" object.id%}" method="get">
+<form action="{% url "VoteResult" object.id%}" method="GET">
 {% csrf_token %}
 {% for choice in object.choice_set.all %}
     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />

@@ -11,10 +11,6 @@ class CategoryListView(ListView):
     model = Category
     template_name = "category_list.html"
 
-    def get_context_data(self, **kwargs):
-        context = super(CategoryListView, self).get_context_data(**kwargs)
-        return context
-
 
 class CategoryCreateView(CreateView):
 
@@ -67,6 +63,12 @@ class QuestionCreateView(CreateView):
     form_class = QuestionCreateForm
 
     success_url = reverse_lazy('main_page')
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['question_category'] = self.kwargs["pk"]
+
+        return initial
 
 
 class QuestionUpdateView(UpdateView):
@@ -121,7 +123,7 @@ class DisplayVoteResult(DetailView):
         context = super(DisplayVoteResult, self).get_context_data(**kwargs)
         m = self.kwargs["pk"]
         question = get_object_or_404(Question, id=m)
-             
+           
         try:
             selected_choice = question.choice_set.get(id=self.request.GET['choice'])
             context["n"] = Question.objects.get(id=m)
@@ -133,8 +135,10 @@ class DisplayVoteResult(DetailView):
         except Exception:
 
             context['n'] = Question.objects.get(id=m)
-            context['Message'] = "No choices are selected !!!"
+            context['Message'] = "Please Select or Create Choice first"
  
             return context
+
+
 
   
