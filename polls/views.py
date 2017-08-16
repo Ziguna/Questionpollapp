@@ -7,13 +7,17 @@ from django.shortcuts import get_object_or_404
 
 
 class CategoryListView(ListView):
-
+    '''
+    Shows up all the list of question categories in the main page.
+    '''
     model = Category
     template_name = "category_list.html"
 
 
 class CategoryCreateView(CreateView):
-
+    '''
+    Used to create a new question category.
+    '''
     template_name = "category_create.html"
     form_class = CategoryCreateForm
 
@@ -21,13 +25,16 @@ class CategoryCreateView(CreateView):
 
 
 class CategoryDetailView(DetailView):
-
+    '''
+    Used to show the list of all the questions in the particular category.
+    '''
     model = Category
     template_name = "category_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super(CategoryDetailView, self).get_context_data(**kwargs)
         context['a'] = Question.objects.all()
+
         return context
 
 
@@ -44,20 +51,25 @@ class CategoryDeleteView(DeleteView):
 
 
 class QuestionListView(DetailView):
-
+    '''
+    Displays the particular selected question
+    '''
     model = Question
     template_name = "choice_list.html"
     form_class = QuestionCreateForm
 
     def get_context_data(self, **kwargs):
-        context = super(QuestionListView, self).get_context_data(**kwargs)
-        k = self.kwargs["pk"]
-        #context["p"] = Question.objects.get(id=k)
-
+        context = super().get_context_data(**kwargs)
+         
         return context
 
 
 class QuestionCreateView(CreateView):
+    '''
+    Used to create a new question in a particular catergory
+    and get_initial method is used to set the initial value of the question.
+    and pass the id to the question_category.
+    '''
 
     template_name = "question_create.html"
     form_class = QuestionCreateForm
@@ -95,6 +107,9 @@ class QuestionDeleteView(DeleteView):
 
 
 class ChoiceListView(ListView):
+    '''
+    Use to show the list of all the choices in the particular question of the certain category.
+    '''
 
     model = Choice
     template_name = "choice_list.html"
@@ -102,18 +117,32 @@ class ChoiceListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ChoiceListView, self).get_context_data(**kwargs)
         context['c'] = Choice.objects.all()
+
         return context
 
 
 class ChoiceCreateView(CreateView):
+    '''
+    Use to add or create a new choice in a certain question.
+    get_initial method is used to get the initial id and keep the id in the 'question'.
+    '''
 
     template_name = "choice_create.html"
     form_class = ChoiceCreateForm
 
     success_url = reverse_lazy('main_page')
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['question'] = self.kwargs["pk"]
+
+        return initial
+
 
 class DisplayVoteResult(DetailView):
+    '''
+    Display the voting results of a certain question.
+    '''
 
     model = Choice
     template_name = "display_result.html"
@@ -122,12 +151,11 @@ class DisplayVoteResult(DetailView):
 
         context = super(DisplayVoteResult, self).get_context_data(**kwargs)
         m = self.kwargs["pk"]
-        question = get_object_or_404(Question, id=m)
-           
+        question = get_object_or_404(Question, id=m)  # Prints the particular question if id=m
         try:
-            selected_choice = question.choice_set.get(id=self.request.GET['choice'])
-            context["n"] = Question.objects.get(id=m)
-            selected_choice.votes += 1
+            selected_choice = question.choice_set.get(id=self.request.GET['choice'])  # Prints the selected choice
+            context["n"] = Question.objects.get(id=m)  # Prints the particular question
+            selected_choice.votes += 1  # increase the number of votes
             selected_choice.save()
 
             return context
@@ -136,9 +164,9 @@ class DisplayVoteResult(DetailView):
 
             context['n'] = Question.objects.get(id=m)
             context['Message'] = "Please Select or Create Choice first"
- 
+
             return context
 
 
 
-  
+ 

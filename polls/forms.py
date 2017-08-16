@@ -17,5 +17,5 @@ class QuestionCreateForm(forms.ModelForm):
 class ChoiceCreateForm(forms.ModelForm):
     class Meta:
         model = Choice
-        fields = ('question', 'choice_text', 'votes')
+        fields = ('question', 'choice_text')
 
