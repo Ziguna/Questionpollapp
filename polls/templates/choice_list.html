@@ -3,7 +3,7 @@
 <a href = "{%url "ChoiceCreate" object.id%}"><button type="button">Add New Choices in this question</button></a><br>
 
 
-<h3>{{object}}</h3><h4>Total Options:</h4>{{object.choice_set.all|length}}
+<h3>{{object}}</h3>Total Choices: {{object.choice_set.all|length}}<br><br>
 
 <form action="{% url "VoteResult" object.id%}" method="GET">
 {% csrf_token %}
